@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pengaturan - Form Laporan Harian PSG</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📋</text></svg>">
+  <link rel="stylesheet" href="css/style.css?v=4">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <style>
+    .settings-section {
+      margin-bottom: 1.5rem;
+    }
+
+    .settings-section:last-child {
+      margin-bottom: 0;
+    }
+
+    .settings-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .settings-item:last-child {
+      border-bottom: none;
+    }
+
+    .settings-item .settings-info h4 {
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 0.15rem;
+    }
+
+    .settings-item .settings-info p {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
+
+    .toggle-switch {
+      width: 50px;
+      height: 28px;
+      background: var(--border-color);
+      border-radius: 14px;
+      position: relative;
+      cursor: pointer;
+      transition: var(--transition);
+      flex-shrink: 0;
+    }
+
+    .toggle-switch.active {
+      background: var(--primary);
+    }
+
+    .toggle-switch .toggle-knob {
+      width: 24px;
+      height: 24px;
+      background: #fff;
+      border-radius: 50%;
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      transition: var(--transition);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .toggle-switch.active .toggle-knob {
+      left: 24px;
+    }
+
+    .settings-card {
+      padding: 1.5rem;
+    }
+
+    .settings-card h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .settings-card > p {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      margin-bottom: 1rem;
+    }
+
+    .settings-api-input {
+      display: flex; gap: .5rem; align-items: center;
+    }
+    .settings-api-input input {
+      flex: 1; font-size: .85rem;
+    }
+    .key-status-badge {
+      display: inline-flex; align-items: center; gap: .35rem;
+      padding: .25rem .75rem; border-radius: var(--radius-full);
+      font-size: .8rem; font-weight: 500;
+    }
+    .key-status-badge.active {
+      background: rgba(16,185,129,0.1); color: var(--success);
+    }
+    .key-status-badge.inactive {
+      background: rgba(148,163,184,0.1); color: var(--text-muted);
+    }
+    .danger-zone {
+      border: 2px solid rgba(239, 68, 68, 0.2);
+      border-radius: var(--radius-lg);
+    }
+
+    .danger-zone .settings-card h3 {
+      color: var(--danger);
+    }
+  </style>
+</head>
+<body>
+  <div id="bg-effects">
+    <div class="glow glow-1"></div>
+    <div class="glow glow-2"></div>
+    <div class="glow glow-3"></div>
+    <div class="bg-blob bg-blob-1"></div>
+    <div class="bg-blob bg-blob-2"></div>
+    <div class="bg-blob bg-blob-3"></div>
+    <div class="bg-blob bg-blob-4"></div>
+    <div class="bg-blob bg-blob-5"></div>
+  </div>
+  <div class="loading-screen" id="loadingScreen">
+    <div class="loading-logo"><span>PSG</span></div>
+    <div class="loading-spinner"></div>
+    <div class="loading-text">Memuat pengaturan...</div>
+  </div>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-icon">PSG</div>
+        <div class="brand-text">Form Laporan PSG<small>Praktik Sistem Ganda</small></div>
+      </div>
+      <div class="sidebar-user">
+        <div class="user-avatar"><span class="user-avatar-initials">A</span></div>
+        <div class="user-info">
+          <div class="user-name sidebar-user-name">-</div>
+          <div class="user-role sidebar-user-role">-</div>
+        </div>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="nav-section">Utama</div>
+        <a class="nav-item" data-page="dashboard.html"><span class="nav-icon">&#x1F3E0;</span> Dashboard</a>
+        <a class="nav-item" data-page="laporan.html"><span class="nav-icon">&#x1F4DD;</span> Buat Laporan</a>
+        <a class="nav-item" data-page="riwayat.html"><span class="nav-icon">&#x1F4CA;</span> Riwayat Laporan</a>
+        <a class="nav-item" data-page="dokumentasi.html"><span class="nav-icon">&#x1F4F7;</span> Dokumentasi</a>
+        <div class="nav-section">Lainnya</div>
+        <a class="nav-item" data-page="profil.html"><span class="nav-icon">&#x1F464;</span> Profil Saya</a>
+        <a class="nav-item active" data-page="pengaturan.html"><span class="nav-icon">&#x2699;&#xFE0F;</span> Pengaturan</a>
+      </nav>
+      <div class="sidebar-footer">
+        <a class="nav-item" data-action="logout"><span class="nav-icon">&#x1F6AA;</span> Keluar</a>
+      </div>
+    </aside>
+
+    <div class="main-content">
+      <header class="navbar">
+        <div class="navbar-left">
+          <button class="sidebar-toggle" id="sidebarToggle">&#x2630;</button>
+          <div class="page-title">Pengaturan</div>
+        </div>
+        <div class="navbar-right">
+          <button class="nav-btn theme-toggle" title="Toggle Theme"><span class="theme-icon"></span></button>
+        </div>
+      </header>
+
+      <div class="content">
+        <div class="page-header">
+          <h1>&#x2699;&#xFE0F; Pengaturan Aplikasi</h1>
+          <p>Kelola preferensi tampilan, keamanan, dan data</p>
+        </div>
+
+        <div class="grid-2" style="display:grid;gap:1.25rem">
+          <div>
+            <div class="glass-card settings-card">
+              <h3>&#x1F3A8; Tampilan</h3>
+              <p>Sesuaikan tampilan aplikasi sesuai preferensi Anda</p>
+              <div class="settings-item">
+                <div class="settings-info">
+                  <h4>Mode Gelap</h4>
+                  <p>Beralih antara mode terang dan gelap</p>
+                </div>
+                <div class="toggle-switch" id="themeSwitch">
+                  <div class="toggle-knob"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="glass-card settings-card" style="margin-top:1.25rem">
+              <h3>&#x1F512; Keamanan</h3>
+              <p>Kelola keamanan akun Anda</p>
+              <div class="settings-item">
+                <div class="settings-info">
+                  <h4>Ganti Password</h4>
+                  <p>Perbarui password akun Anda secara berkala</p>
+                </div>
+                <button class="btn btn-sm btn-outline" onclick="gantiPassword()">Ganti</button>
+              </div>
+              <div class="settings-item">
+                <div class="settings-info">
+                  <h4>Logout</h4>
+                  <p>Keluar dari sesi saat ini</p>
+                </div>
+                <button class="btn btn-sm btn-danger" onclick="PSG.logout()">Logout</button>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="glass-card settings-card">
+              <h3>&#x1F4BE; Data</h3>
+              <p>Backup dan kelola data aplikasi</p>
+              <div class="settings-item">
+                <div class="settings-info">
+                  <h4>Backup Data</h4>
+                  <p>Unduh semua data sebagai file JSON</p>
+                </div>
+                <button class="btn btn-sm btn-primary" onclick="backupData()">Backup</button>
+              </div>
+              <div class="settings-item">
+                <div class="settings-info">
+                  <h4>Restore Data</h4>
+                  <p>Pulihkan data dari file backup</p>
+                </div>
+                <button class="btn btn-sm btn-outline" onclick="restoreData()">Restore</button>
+              </div>
+            </div>
+
+            <div class="danger-zone glass-card settings-card" style="margin-top:1.25rem">
+              <h3>&#x26A0;&#xFE0F; Zona Berbahaya</h3>
+              <p>Tindakan ini tidak dapat dibatalkan</p>
+              <div class="settings-item">
+                <div class="settings-info">
+                  <h4 style="color:var(--danger)">Reset Semua Data</h4>
+                  <p>Hapus seluruh data laporan, pengguna, dan dokumentasi</p>
+                </div>
+                <button class="btn btn-sm btn-danger" onclick="resetData()">Reset</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (!PSG.requireAuth()) return;
+      PSG.init();
+
+      const themeSwitch = document.getElementById('themeSwitch');
+      if (themeSwitch) {
+        const isDark = PSG.theme === 'dark';
+        themeSwitch.classList.toggle('active', isDark);
+        themeSwitch.addEventListener('click', () => {
+          PSG.toggleTheme();
+          themeSwitch.classList.toggle('active');
+        });
+      }
+
+    });
+
+    async function gantiPassword() {
+      const { value: formValues } = await Swal.fire({
+        title: 'Ganti Password',
+        html: `
+          <div style="text-align:left">
+            <div style="margin-bottom:1rem">
+              <label style="font-size:0.85rem;font-weight:600;color:var(--text-secondary);display:block;margin-bottom:0.35rem">Password Lama</label>
+              <input type="password" id="swal-old-pass" class="swal2-input" placeholder="Password lama">
+            </div>
+            <div style="margin-bottom:1rem">
+              <label style="font-size:0.85rem;font-weight:600;color:var(--text-secondary);display:block;margin-bottom:0.35rem">Password Baru</label>
+              <input type="password" id="swal-new-pass" class="swal2-input" placeholder="Password baru (min. 6 karakter)">
+            </div>
+            <div>
+              <label style="font-size:0.85rem;font-weight:600;color:var(--text-secondary);display:block;margin-bottom:0.35rem">Konfirmasi Password Baru</label>
+              <input type="password" id="swal-confirm-pass" class="swal2-input" placeholder="Ulangi password baru">
+            </div>
+          </div>
+        `,
+        focusConfirm: false,
+        showCancelButton: true,
+        confirmButtonText: 'Simpan',
+        cancelButtonText: 'Batal',
+        confirmButtonColor: '#4F46E5',
+        cancelButtonColor: '#64748B',
+        preConfirm: () => {
+          const oldPass = document.getElementById('swal-old-pass').value;
+          const newPass = document.getElementById('swal-new-pass').value;
+          const confirmPass = document.getElementById('swal-confirm-pass').value;
+
+          if (!oldPass || !newPass || !confirmPass) {
+            Swal.showValidationMessage('Semua field harus diisi');
+            return false;
+          }
+          if (newPass.length < 6) {
+            Swal.showValidationMessage('Password minimal 6 karakter');
+            return false;
+          }
+          if (newPass !== confirmPass) {
+            Swal.showValidationMessage('Konfirmasi password tidak cocok');
+            return false;
+          }
+
+          const user = PSG.currentUser;
+          const users = PSG.db.getUsers();
+          const idx = users.findIndex(u => u.id === user.id);
+          if (idx === -1 || users[idx].password !== oldPass) {
+            Swal.showValidationMessage('Password lama salah');
+            return false;
+          }
+
+          return { newPass };
+        }
+      });
+
+      if (formValues) {
+        const users = PSG.db.getUsers();
+        const idx = users.findIndex(u => u.id === PSG.currentUser.id);
+        if (idx !== -1) {
+          users[idx].password = formValues.newPass;
+          PSG.db.setUsers(users);
+          PSG.currentUser.password = formValues.newPass;
+          PSG.db.set('current_user', PSG.currentUser);
+          PSG.showToast('Password berhasil diubah', 'success');
+        }
+      }
+    }
+
+    function backupData() {
+      PSG.db.backup();
+      PSG.showToast('Data berhasil dibackup', 'success');
+    }
+
+    async function restoreData() {
+      const { value: file } = await Swal.fire({
+        title: 'Restore Data',
+        text: 'Pilih file backup JSON',
+        input: 'file',
+        inputAttributes: { accept: '.json' },
+        confirmButtonColor: '#4F46E5',
+        confirmButtonText: 'Restore',
+        showCancelButton: true,
+        cancelButtonText: 'Batal',
+      });
+
+      if (file) {
+        try {
+          await PSG.db.restore(file);
+          PSG.showToast('Data berhasil direstore. Refresh halaman.', 'success');
+          setTimeout(() => window.location.reload(), 1500);
+        } catch (err) {
+          PSG.showToast('Gagal merestore data: ' + err.message, 'error');
+        }
+      }
+    }
+
+    async function resetData() {
+      const result = await Swal.fire({
+        title: 'Reset Semua Data?',
+        text: 'Tindakan ini akan menghapus semua data dan tidak dapat dibatalkan!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#EF4444',
+        cancelButtonColor: '#64748B',
+        confirmButtonText: 'Ya, Reset!',
+        cancelButtonText: 'Batal',
+      });
+
+      if (result.isConfirmed) {
+        PSG.db.reset();
+        PSG.showToast('Semua data telah direset', 'info');
+        setTimeout(() => window.location.href = 'login.html', 1500);
+      }
+    }
+  </script>
+</body>
+</html>
