@@ -1,0 +1,264 @@
+.dashboard-greeting {
+  padding: 2rem;
+  margin-bottom: 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.dashboard-greeting::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(79, 70, 229, 0.15), transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.dashboard-greeting::after {
+  content: '';
+  position: absolute;
+  bottom: -30%;
+  left: -10%;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.1), transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.greeting-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.greeting-avatar {
+  width: 70px;
+  height: 70px;
+  border-radius: var(--radius-full);
+  background: var(--primary-gradient);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 1.6rem;
+  font-weight: 700;
+  flex-shrink: 0;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(79, 70, 229, 0.2);
+}
+
+.greeting-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.greeting-text h1 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 0.15rem;
+}
+
+.greeting-text h1 .highlight {
+  background: var(--primary-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.greeting-text p {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.greeting-text p strong {
+  color: var(--text-primary);
+}
+
+.greeting-quote {
+  margin-top: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: rgba(79, 70, 229, 0.06);
+  border-radius: var(--radius-md);
+  border-left: 3px solid var(--primary);
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+.progress-overview {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  padding: 1.5rem;
+}
+
+.progress-overview .progress-circle-wrap {
+  flex-shrink: 0;
+}
+
+.progress-overview .progress-details {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.progress-detail-item {
+  text-align: center;
+  padding: 0.75rem;
+  background: rgba(79, 70, 229, 0.04);
+  border-radius: var(--radius-md);
+}
+
+.progress-detail-item .value {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.progress-detail-item .label {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  margin-top: 0.15rem;
+}
+
+.gra-card {
+  padding: 1.5rem;
+}
+
+.gra-card .chart-container {
+  width: 100%;
+  height: 280px;
+  position: relative;
+}
+
+.notification-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.notif-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.85rem;
+  border-radius: var(--radius-md);
+  transition: var(--transition);
+  cursor: pointer;
+}
+
+.notif-item:hover {
+  background: rgba(79, 70, 229, 0.04);
+}
+
+.notif-item.unread {
+  background: rgba(79, 70, 229, 0.06);
+  border-left: 3px solid var(--primary);
+}
+
+.notif-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+.notif-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.notif-content .notif-text {
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  margin-bottom: 0.15rem;
+}
+
+.notif-content .notif-text strong {
+  font-weight: 600;
+}
+
+.notif-content .notif-time {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.quick-report-card {
+  padding: 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: var(--transition);
+  border: 2px dashed var(--border-color);
+  border-radius: var(--radius-lg);
+}
+
+.quick-report-card:hover {
+  border-color: var(--primary);
+  background: rgba(79, 70, 229, 0.04);
+  transform: translateY(-2px);
+}
+
+.quick-report-card .quick-icon {
+  font-size: 2.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.quick-report-card h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.quick-report-card p {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.pembimbing-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+
+
+@media (max-width: 768px) {
+  .greeting-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .greeting-text h1 {
+    font-size: 1.1rem;
+  }
+
+  .progress-overview {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .progress-overview .progress-details {
+    grid-template-columns: 1fr;
+  }
+
+  .pembimbing-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .dashboard-greeting {
+    padding: 1.25rem;
+  }
+}

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profil - Form Laporan Harian PSG</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📋</text></svg>">
+  <link rel="stylesheet" href="css/style.css?v=4">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <style>
+    .profile-header {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      padding: 2rem;
+    }
+
+    .profile-avatar-wrap {
+      position: relative;
+      width: 120px;
+      height: 120px;
+      flex-shrink: 0;
+    }
+
+    .profile-avatar-wrap .avatar {
+      width: 120px;
+      height: 120px;
+      font-size: 2.5rem;
+      border: 4px solid var(--border-color);
+      transition: var(--transition);
+    }
+
+    .profile-avatar-wrap .avatar-change {
+      position: absolute;
+      bottom: 4px;
+      right: 4px;
+      width: 36px;
+      height: 36px;
+      background: var(--primary-gradient);
+      color: #fff;
+      border: 2px solid var(--bg-secondary);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: var(--transition);
+    }
+
+    .profile-avatar-wrap .avatar-change:hover {
+      transform: scale(1.1);
+    }
+
+    .profile-info h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+
+    .profile-info .role-badge {
+      display: inline-block;
+      padding: 0.25rem 1rem;
+      background: rgba(79, 70, 229, 0.1);
+      color: var(--primary);
+      border-radius: var(--radius-full);
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .profile-info p {
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+    }
+
+    .profile-form {
+      padding: 1.5rem 2rem 2rem;
+    }
+
+    @media (max-width: 768px) {
+      .profile-header {
+        flex-direction: column;
+        text-align: center;
+        padding: 1.25rem;
+      }
+      .profile-form {
+        padding: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="bg-effects">
+    <div class="glow glow-1"></div>
+    <div class="glow glow-2"></div>
+    <div class="glow glow-3"></div>
+    <div class="bg-blob bg-blob-1"></div>
+    <div class="bg-blob bg-blob-2"></div>
+    <div class="bg-blob bg-blob-3"></div>
+    <div class="bg-blob bg-blob-4"></div>
+    <div class="bg-blob bg-blob-5"></div>
+  </div>
+  <div class="loading-screen" id="loadingScreen">
+    <div class="loading-logo"><span>PSG</span></div>
+    <div class="loading-spinner"></div>
+    <div class="loading-text">Memuat profil...</div>
+  </div>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-icon">PSG</div>
+        <div class="brand-text">Form Laporan PSG<small>Praktik Sistem Ganda</small></div>
+      </div>
+      <div class="sidebar-user">
+        <div class="user-avatar"><span class="user-avatar-initials">A</span></div>
+        <div class="user-info">
+          <div class="user-name sidebar-user-name">-</div>
+          <div class="user-role sidebar-user-role">-</div>
+        </div>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="nav-section">Utama</div>
+        <a class="nav-item" data-page="dashboard.html"><span class="nav-icon">&#x1F3E0;</span> Dashboard</a>
+        <a class="nav-item" data-page="laporan.html"><span class="nav-icon">&#x1F4DD;</span> Buat Laporan</a>
+        <a class="nav-item" data-page="riwayat.html"><span class="nav-icon">&#x1F4CA;</span> Riwayat Laporan</a>
+        <a class="nav-item" data-page="dokumentasi.html"><span class="nav-icon">&#x1F4F7;</span> Dokumentasi</a>
+        <div class="nav-section">Lainnya</div>
+        <a class="nav-item active" data-page="profil.html"><span class="nav-icon">&#x1F464;</span> Profil Saya</a>
+        <a class="nav-item" data-page="pengaturan.html"><span class="nav-icon">&#x2699;&#xFE0F;</span> Pengaturan</a>
+      </nav>
+      <div class="sidebar-footer">
+        <a class="nav-item" data-action="logout"><span class="nav-icon">&#x1F6AA;</span> Keluar</a>
+      </div>
+    </aside>
+
+    <div class="main-content">
+      <header class="navbar">
+        <div class="navbar-left">
+          <button class="sidebar-toggle" id="sidebarToggle">&#x2630;</button>
+          <div class="page-title">Profil Saya</div>
+        </div>
+        <div class="navbar-right">
+          <button class="nav-btn theme-toggle" title="Toggle Theme"><span class="theme-icon"></span></button>
+        </div>
+      </header>
+
+      <div class="content">
+        <div class="page-header">
+          <h1>&#x1F464; Profil Pengguna</h1>
+          <p>Informasi data diri dan pengaturan akun</p>
+        </div>
+
+        <div class="glass-card card" id="profileContainer">
+          <div class="profile-header">
+            <div class="profile-avatar-wrap">
+              <div class="avatar avatar-xl" style="font-size:2.5rem">
+                <span class="user-avatar-initials" id="profileInitial">A</span>
+              </div>
+              <label class="avatar-change" for="fotoProfilInput" title="Ganti Foto">&#x270F;&#xFE0F;</label>
+              <input type="file" id="fotoProfilInput" accept="image/*" hidden style="display:none">
+            </div>
+            <div class="profile-info">
+              <div id="profileNama" style="font-size:1.5rem;font-weight:700">-</div>
+              <div class="role-badge" id="profileRole">Siswa PKL</div>
+              <p id="profileSekolah">-</p>
+            </div>
+          </div>
+
+          <div class="profile-form">
+            <form id="formProfil">
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Nama Lengkap</label>
+                  <input type="text" class="form-input" id="editNama">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">NISN/NIP</label>
+                  <input type="text" class="form-input" id="editNis" readonly style="opacity:0.7">
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Kelas</label>
+                  <input type="text" class="form-input" id="editKelas">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Jurusan</label>
+                  <input type="text" class="form-input" id="editJurusan">
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Sekolah</label>
+                  <input type="text" class="form-input" id="editSekolah">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Tempat PSG</label>
+                  <input type="text" class="form-input" id="editTempatPSG">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Pembimbing Lapangan</label>
+                <input type="text" class="form-input" id="editPembimbing">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Hari PKL Ke-</label>
+                <input type="number" class="form-input" id="editHariPkl" min="1" max="365">
+              </div>
+              <div style="display:flex;gap:1rem;margin-top:1.5rem">
+                <button type="submit" class="btn btn-primary">&#x1F4BE; Simpan Perubahan</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (!PSG.requireAuth()) return;
+      PSG.init();
+      loadProfile();
+
+      document.getElementById('fotoProfilInput')?.addEventListener('change', function(e) {
+        if (e.target.files.length) {
+          const reader = new FileReader();
+          reader.onload = (ev) => {
+            const user = PSG.currentUser;
+            user.foto = ev.target.result;
+            const users = PSG.db.getUsers();
+            const idx = users.findIndex(u => u.id === user.id);
+            if (idx !== -1) users[idx].foto = ev.target.result;
+            PSG.db.setUsers(users);
+            PSG.db.set('current_user', user);
+            PSG.currentUser = user;
+            PSG.updateUI();
+            PSG.showToast('Foto profil berhasil diperbarui', 'success');
+            loadProfile();
+          };
+          reader.readAsDataURL(e.target.files[0]);
+        }
+      });
+
+      document.getElementById('formProfil')?.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const user = PSG.currentUser;
+        const data = {
+          nama: document.getElementById('editNama').value,
+          kelas: document.getElementById('editKelas').value,
+          jurusan: document.getElementById('editJurusan').value,
+          sekolah: document.getElementById('editSekolah').value,
+          tempat_psg: document.getElementById('editTempatPSG').value,
+          pembimbing: document.getElementById('editPembimbing').value,
+          hari_pkl: parseInt(document.getElementById('editHariPkl').value) || 1,
+        };
+
+        const users = PSG.db.getUsers();
+        const idx = users.findIndex(u => u.id === user.id);
+        if (idx !== -1) {
+          Object.assign(users[idx], data);
+          PSG.db.setUsers(users);
+          Object.assign(PSG.currentUser, data);
+          PSG.db.set('current_user', PSG.currentUser);
+          PSG.updateUI();
+          PSG.showToast('Profil berhasil diperbarui', 'success');
+          loadProfile();
+        }
+      });
+    });
+
+    function loadProfile() {
+      const user = PSG.currentUser;
+      if (!user) return;
+
+      document.getElementById('profileNama').textContent = user.nama || '-';
+      document.getElementById('profileInitial').textContent = user.nama ? user.nama.charAt(0).toUpperCase() : '?';
+      const roleMap = { siswa: 'Siswa PKL', pembimbing: 'Pembimbing', admin: 'Administrator' };
+      document.getElementById('profileRole').textContent = roleMap[user.role] || user.role;
+      document.getElementById('profileSekolah').textContent = user.sekolah ? `${user.sekolah} | ${user.kelas || ''} ${user.jurusan || ''}` : 'Data belum lengkap';
+
+      document.getElementById('editNama').value = user.nama || '';
+      document.getElementById('editNis').value = user.nis || '';
+      document.getElementById('editKelas').value = user.kelas || '';
+      document.getElementById('editJurusan').value = user.jurusan || '';
+      document.getElementById('editSekolah').value = user.sekolah || '';
+      document.getElementById('editTempatPSG').value = user.tempat_psg || '';
+      document.getElementById('editPembimbing').value = user.pembimbing || '';
+      document.getElementById('editHariPkl').value = user.hari_pkl || 1;
+    }
+  </script>
+</body>
+</html>
