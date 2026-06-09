@@ -19,6 +19,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        if (config('database.default') === 'sqlite' && !file_exists(database_path('database.sqlite'))) {
+            touch(database_path('database.sqlite'));
+        }
     }
 }
